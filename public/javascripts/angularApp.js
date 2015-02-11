@@ -1,5 +1,7 @@
 var app = angular.module('flapperNews', ['ui.router']);
 var mongoose = require('mongoose');
+require('./models/Posts');
+require('./models/Comments');
 
 mongoose.connect('mongodb://localhost/news');
 
