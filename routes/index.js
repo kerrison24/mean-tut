@@ -83,7 +83,7 @@ router.put('/posts/:post/comments/:comment/upvote', function(req, res, next) {
 });
 
 router.param('comment', function(req, res, next, id) {
-    var query = Post.comment.findById(id);
+    var query = post.comment.findById(id);
 
     query.exec(function (err, comment){
         if (err) { return next(err); }
