@@ -1,15 +1,15 @@
 var app = angular.module('flapperNews', ['ui.router']);
-var mongoose = require('mongoose');
-require('./models/Posts');
-require('./models/Comments');
 
-mongoose.connect('mongodb://localhost/news');
 
-app.factory('posts', [function(){
+app.factory('posts', ['$http', function($http){
     var o = {
         posts: []
     };
-    return o;
+    o.getAll = function() {
+        return $http.get('/posts').success(function(data){
+            angular.copy(data, o.posts);
+        });
+    };
 }]);
 
 app.controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
@@ -54,7 +54,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $ur
         .state('home', {
             url: '/home',
             templateUrl: '/home.html',
-            controller: 'MainCtrl'
+            controller: 'MainCtrl',
+            resolve: {
+                postPromise: ['posts', function(posts){
+                    return posts.getAll();
+                }]
+            }
         })
         .state('posts', {
             url: '/posts/{id}',
