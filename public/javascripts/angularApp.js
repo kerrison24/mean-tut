@@ -10,7 +10,7 @@ app.factory('posts', ['$http', function($http){
             angular.copy(data, o.posts);
         });
     };
-    return o;
+    return o; 
 }]);
 
 app.controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
